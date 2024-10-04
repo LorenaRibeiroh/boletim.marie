@@ -1,6 +1,5 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-$materiaSelecionada = isset($_POST['materia']) ? $_POST['materia'] : '';
+if ($materiaSelecionada = isset($_POST['materia']) ? $_POST['materia'] : ''){
     $b1n1 = isset($_POST['b1n1']) ? floatval($_POST['b1n1']) : 0;
     $b1n2 = isset($_POST['b1n2']) ? floatval($_POST['b1n2']) : 0;
     $b2n1 = isset($_POST['b2n1']) ? floatval($_POST['b2n1']) : 0;
@@ -86,9 +85,15 @@ $materiaSelecionada = isset($_POST['materia']) ? $_POST['materia'] : '';
         if ($mediaFinal >= 6) {
             echo "Aprovado! com " . $mediaFinal;
         } elseif ($mediaFinal >= 2 && $mediaFinal < 6) {
-            echo "Necessário fazer uma prova de recuperação! <br>,<br>";  
+            echo "Necessário fazer uma prova de recuperação!";
+            echo '<form method="post">';
+            echo '<input type="hidden" name="materia" value="' . $materiaSelecionada . '">';
+            echo '<input type="hidden" name="b1n1" value="' . $b1n1 . '">';
+            echo '<input type="hidden" name="b1n2" value="' . $b1n2 . '">';
+            echo '<input type="hidden" name="b2n1" value="' . $b2n1 . '">';
+            echo '<input type="hidden" name="b2n2" value="' . $b2n2 . '">';
             echo 'Digite a nota da prova de recuperação: <input type="number" name="notaRecuperacao">';
-            echo '<input type="submit" value="Enviar"><br><br>';
+            echo '<input type="submit" value="Enviar">';
             echo '</form>';
             if (isset($_POST['notaRecuperacao'])) {
                 $notaRecuperacao = floatval($_POST['notaRecuperacao']);
@@ -106,6 +111,7 @@ $materiaSelecionada = isset($_POST['materia']) ? $_POST['materia'] : '';
 
         echo '<table border="1">';
         echo '<tr>';
+        echo "<h1>".$materiaSelecionada."</h1>";
         foreach ($notasMaterias[$materiaSelecionada] as $tipoNota => $nota) {
             echo '<th>' . $tipoNota . '</th>';
         }
@@ -116,7 +122,7 @@ $materiaSelecionada = isset($_POST['materia']) ? $_POST['materia'] : '';
         foreach ($notasMaterias[$materiaSelecionada] as $nota) {
             echo '<td>' . $nota . '</td>';
         }
-        echo '<td>' . (isset($mediaFinalComRecuperacao) ? $mediaFinalComRecuperacao : 'N/A') . '</td>';
+        echo '<td>' . (isset($mediaFinalComRecuperacao) ? $mediaFinalComRecuperacao : 'Não registrada') . '</td>';
         echo '</tr>';
         echo '</table>';
     } else {
